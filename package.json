@@ -1,0 +1,68 @@
+{
+  "name": "fbp-types",
+  "version": "0.1.0",
+  "description": "A universal static type checking solution for use in flow-based-programming systems",
+  "keywords": [],
+  "homepage": "https://github.com/Malpaux/fbp-types#readme",
+  "bugs": {
+    "url": "https://github.com/Malpaux/fbp-types/issues"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Malpaux (malpaux.com)",
+  "contributors": [
+    {
+      "name": "Paul Brachmann",
+      "email": "paul.brachmann@malpaux.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Malpaux/fbp-types.git"
+  },
+  "scripts": {
+    "build": "npm run nearleyc && tsc -p ./tsconfig.prod.json -d",
+    "clean": "rimraf dist && rimraf src/grammar/index.ts",
+    "lint": "tslint -p tsconfig.json -e src/grammar/index.ts",
+    "lint:fix": "tslint -p tsconfig.json -e src/grammar/index.ts --fix",
+    "nearleyc": "nearleyc ./src/grammar/grammar.ne -o ./src/grammar/index.ts",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
+  },
+  "dependencies": {
+    "nearley": "^2.10.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^20.0.2",
+    "@types/node": "^8.0.20",
+    "jest": "^20.0.4",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^20.0.7",
+    "tslint": "^5.5.0",
+    "tslint-config-airbnb": "^5.2.1",
+    "typescript": "^2.4.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "mapCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/src/grammar/"
+    ],
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|tsx|js)$",
+    "testPathIgnorePatterns": [
+      "<rootDir>/(build|dist|docs|node_modules)/"
+    ],
+    "testEnvironment": "node"
+  }
+}
