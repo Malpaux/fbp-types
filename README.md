@@ -34,7 +34,7 @@ console.log(check(parse('?(int | string)'), 0.3)); // false
 
 // Type inference
 console.log(infer('str')); // 'string'
-console.log(infer([1, 2, 3])); // 'any[]'
+console.log(infer([1, 2, 3])); // '(?any)[]'
 
 // Using generics
 const genericsMap: types.GenericsMap = {};

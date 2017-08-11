@@ -21,11 +21,11 @@ const infer = (value: any): string => {
       return 'string';
 
     case 'object':
-      if (Array.isArray(value)) return 'any[]';
-      return '{ [any]: any }';
+      if (Array.isArray(value)) return '(?any)[]';
+      return '{ [?any]: ?any }';
   }
 
-  return 'any';
+  return '?any';
 };
 
 export default infer;

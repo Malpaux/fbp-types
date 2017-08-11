@@ -12,9 +12,9 @@ describe('type inference', () => {
     expect(infer(0)).toBe('float');
     expect(infer('Hello, world!')).toBe('string');
     expect(infer(undefined)).toBe('void');
-    expect(infer([])).toBe('any[]');
-    expect(infer({})).toBe('{ [any]: any }');
+    expect(infer([])).toBe('(?any)[]');
+    expect(infer({})).toBe('{ [?any]: ?any }');
     expect(infer(null)).toBe('?any');
-    expect(infer(Symbol())).toBe('any');
+    expect(infer(Symbol())).toBe('?any');
   });
 });
