@@ -18,6 +18,7 @@ describe('parser', () => {
     expect(parse('bool[]'));
     expect(parse('{}'));
     expect(parse('{ key: int }'));
+    expect(parse('{ key: int }[]'));
     expect(parse('{ [string]: int }'));
     expect(parse('date{T extends (string | int)}'));
   });

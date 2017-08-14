@@ -5,16 +5,28 @@
  */
 
 import infer from './infer';
+import match from './match';
+import parse from './parse';
 
 describe('type inference', () => {
   it('should infer a value\'s type', () => {
-    expect(infer(true)).toBe('bool');
-    expect(infer(0)).toBe('float');
-    expect(infer('Hello, world!')).toBe('string');
-    expect(infer(undefined)).toBe('void');
-    expect(infer([])).toBe('(?any)[]');
-    expect(infer({})).toBe('{ [?any]: ?any }');
-    expect(infer(null)).toBe('?any');
-    expect(infer(Symbol())).toBe('?any');
+    expect(match(infer(true), parse('bool'))).toBe(true);
+    expect(match(infer(0), parse('float'))).toBe(true);
+    expect(match(infer('Hello, world!'), parse('string'))).toBe(true);
+    expect(match(infer(undefined), parse('void'))).toBe(true);
+    expect(match(infer([]), parse('[]'))).toBe(true);
+    expect(match(infer([0, 'string']), parse('[float, string]'))).toBe(true);
+    expect(match(infer([0, 1, 2, 3]), parse('float[4]'))).toBe(true);
+    expect(match(
+      infer([{ key: 0, key2: null }, { key2: null, key: 12 }]),
+      parse('{ key: float, key2: null }[2]'),
+    )).toBe(true);
+    expect(match(infer({}), parse('{}'))).toBe(true);
+    expect(match(
+      infer({ key: 2.3, key2: false, key3: [] }),
+      parse('{ key: float, key2: bool, key3: [] }'),
+    )).toBe(true);
+    expect(match(infer(null), parse('null'))).toBe(true);
+    expect(match(infer(Symbol()), parse('any'))).toBe(true);
   });
 });

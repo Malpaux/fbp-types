@@ -52,13 +52,12 @@ const check = (
       // Tuple is represented as array
       if (!Array.isArray(value)) return false;
 
-      const { types } = (data as fragments.Tuple['data']);
       const { length } = value;
-      return types ?
+      return data ?
         // Check tuple size
-        length === types.length
+        length === data.length
           // Check contained values' types
-          && !~types.findIndex((currentType, index) =>
+          && !~(data as fragments.Tuple['data']).findIndex((currentType, index) =>
             !check(currentType, value[index], genericsMap, checkerMap),
           )
         // No types given -> empty tuple
@@ -91,13 +90,11 @@ const check = (
       // Value has to be an object
       if (typeof value !== 'object' || Array.isArray(value)) return false;
 
-      const { types } = (data as fragments.Struct['data']);
-
       // No types given (matches any object)
-      return !types
+      return !data
         // Check contained types
-        || !~Object.keys(types).findIndex((key) => {
-          const pair = types[key];
+        || !~Object.keys((data as fragments.Struct['data'])).findIndex((key) => {
+          const pair = data[key];
           const currentValue = value[key];
 
           // Optional keys do not have to exist

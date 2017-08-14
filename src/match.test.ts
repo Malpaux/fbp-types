@@ -121,6 +121,7 @@ describe('type matcher', () => {
   });
 
   it('should match tuples', () => {
+    expect(match(parse('[]'), parse('[]'))).toBe(true);
     expect(match(parse('[any, any]'), parse('[int, float]'))).toBe(true);
     expect(match(parse('[int, float]'), parse('[int, float]'))).toBe(true);
 

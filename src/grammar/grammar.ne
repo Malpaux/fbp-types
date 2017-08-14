@@ -13,15 +13,15 @@
   export type Intersection = Fragment<'intersection', { type: Fragment<any>, type2: Fragment<any> }>;
   export type Nullable = Fragment<'nullable', Fragment<any>>;
 
-  export type Tuple = Fragment<'tuple', { types?: Fragment<any>[] }>;
+  export type Tuple = Fragment<'tuple', Fragment<any>[] | null>;
   export type ArrayFragment = Fragment<'array', { size: number, type: Fragment<any> }>;
   export type ListFragment = Fragment<'list', Fragment<any>>;
   export type Struct = Fragment<'struct', {
-    types?: { [key: string]: { key: string, optional: boolean, type: Fragment<any> } },
-  }>;
+    [key: string]: { optional?: boolean, type: Fragment<any> },
+  } | null>;
   export type MapFragment = Fragment<'map', { keyType: Fragment<any>, type: Fragment<any> }>;
 
-  export type Named = Fragment<'named', {name: string, type: Fragment<any> }>;
+  export type Named = Fragment<'named', { name: string, type: Fragment<any> }>;
 
   export type Literal = Fragment<'literal', any>;
   export type Primitive = Fragment<'primitive', string>;
@@ -57,7 +57,7 @@ nullable ->
 type ->
   simpleType {% unpack %}
   # Tuple
-| "[" _ typeList:? _ "]" {% (data: any[]): Tuple => new Fragment('tuple', { types: data[2] }) %}
+| "[" _ typeList:? _ "]" {% (data: any[]): Tuple => new Fragment('tuple', data[2]) %}
   # Array
 | type "[" _ unsigned_int _ "]" {% (data: any[]): ArrayFragment =>
     new Fragment('array', { type: data[0], size: data[3] })
@@ -71,7 +71,7 @@ type ->
     pairs && pairs.forEach((pair: { key: string, optional: boolean, type: Fragment<any> }) => {
       object[pair.key] = pair;
     });
-    return new Fragment('struct', { types: object })
+    return new Fragment('struct', object)
   } %}
   # Map
 | "{" _ "[" _ simpleType _ "]:" _ fragment _ "}" {% (data: any[]): MapFragment =>

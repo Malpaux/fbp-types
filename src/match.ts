@@ -123,12 +123,12 @@ const match = (
     case 'tuple':
       return type === type2
         // Both types are null (or otherwise identical)
-        && (data.types === data2.types
+        && (data === data2
         // Check if tuple sizes match
-        || data.types && data2.types && data.types.length === data2.types.length &&
+        || data && data2 && data.length === data2.length &&
           // Match contained values' types
-          !~data.types.findIndex((valueType: fragments.Any, index: number) => {
-            const valueType2 = data2.types[index];
+          !~data.findIndex((valueType: fragments.Any, index: number) => {
+            const valueType2 = data2[index];
             return !(valueType2 && match(valueType, valueType2));
           })
         );
@@ -148,9 +148,9 @@ const match = (
     case 'struct':
       return type === type2
         // Match contained values' types
-        && !~Object.keys(data.types).findIndex((key) => {
-          const pair = data.types[key];
-          const pair2 = data2.types[key];
+        && !~Object.keys(data).findIndex((key) => {
+          const pair = data[key];
+          const pair2 = data2[key];
           return !(pair2 ?
             (pair.optional || !pair2.optional)
               && match(pair.type, pair2.type, genericsMap, context)
@@ -182,12 +182,14 @@ const match = (
         && match(receivingType, data2, genericsMap, context));
 
     case 'intersection': {
-      // A non-nullable intersection must include at leat one non-nullable type
-      const null1 = isNullable(data2.type);
-      const null2 = isNullable(data2.type2);
-      const newContext = !(null1 && null2) && (null1 || null2) ?
-        { ...context, nullable: true }
-      : context;
+      let newContext = context;
+
+      if (!context.nullable) {
+        // A non-nullable intersection must include at least one non-nullable type
+        const null1 = isNullable(data2.type);
+        const null2 = isNullable(data2.type2);
+        if (!(null1 && null2) && (null1 || null2)) newContext = { ...context, nullable: true };
+      }
 
       // If any type in a received intersection is accepted, the whole intersection is
       return match(receivingType, data2.type, genericsMap, newContext)
