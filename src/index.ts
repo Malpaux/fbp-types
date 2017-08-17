@@ -15,6 +15,7 @@ export { default as check } from './check';
 export { default as infer } from './infer';
 export { default as match } from './match';
 export { default as parse } from './parse';
+export { default as print } from './print';
 
 import * as types from './types';
 export { types };

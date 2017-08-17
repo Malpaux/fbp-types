@@ -32,6 +32,7 @@ describe('type matcher', () => {
     expect(match(parse('float'), parse('float'))).toBe(true);
 
     expect(match(parse('any'), parse('?any'))).toBe(false);
+    expect(match(parse('any'), parse('null'))).toBe(false);
     expect(match(parse('any'), parse('?float'))).toBe(false);
     expect(match(parse('bool'), parse('float'))).toBe(false);
   });

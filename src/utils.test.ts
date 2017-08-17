@@ -6,7 +6,7 @@
 
 import parse from './parse';
 
-import { convertNull, isNullable, oneOf } from './utils';
+import { convertNull, isNullable } from './utils';
 
 describe('utilities', () => {
   it('should covert undefined values to null', () => {

@@ -66,9 +66,12 @@ type ->
 | type "[]" {% (data: any[]) => new Fragment('list', data[0]) %}
   # Struct
 | "{" _ keyedTypeList:? _ "}" {% (data: any[]): Struct => {
-    const object: { [key: string]: { key: string, optional: boolean, type: Fragment<any> } } = {};
+    let object: {
+      [key: string]: { key: string, optional: boolean, type: Fragment<any> }
+    } | null = null;
     const pairs = data[2];
     pairs && pairs.forEach((pair: { key: string, optional: boolean, type: Fragment<any> }) => {
+      if (!object) object = {};
       object[pair.key] = pair;
     });
     return new Fragment('struct', object)

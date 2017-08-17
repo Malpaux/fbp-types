@@ -78,6 +78,8 @@ describe('type checker', () => {
   });
 
   it('should check structs', () => {
+    expect(check(parse('{}'), {})).toBe(true);
+    expect(check(parse('{}'), { key: 'string' })).toBe(true);
     expect(check(parse('{ key: string }'), { key: 'string' })).toBe(true);
     expect(check(
       parse('{ key: (float | string) } & { key2: int, key3: ?bool, key4?: char, }'),

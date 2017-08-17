@@ -23,7 +23,7 @@ The FBP-Types JavaScript toolkit includes a parser, type checker, type matcher a
 ### Example
 #### TypeScript
 ```typescript
-import { check, infer, match, parse, types } from 'fbp-types/check';
+import { check, infer, match, parse, print, types } from 'fbp-types/check';
 
 // Simple type matching & checking
 console.log(match(parse('?(int | string)'), parse('?int'))); // true
@@ -32,9 +32,9 @@ console.log(match(parse('?(int | string)'), parse('bool'))); // false
 console.log(check(parse('?(int | string)'), 12)); // true
 console.log(check(parse('?(int | string)'), 0.3)); // false
 
-// Type inference
-console.log(infer('str')); // 'string'
-console.log(infer([1, 2, 3])); // '(?any)[]'
+// Type inference (print function stringifies a type AST)
+console.log(print(infer('str'))); // 'string'
+console.log(print(infer([1, 2, 3]))); // 'float[3]'
 
 // Using generics
 const genericsMap: types.GenericsMap = {};

@@ -57,7 +57,7 @@ const check = (
         // Check tuple size
         length === data.length
           // Check contained values' types
-          && !~(data as fragments.Tuple['data']).findIndex((currentType, index) =>
+          && !~(data as fragments.Any[]).findIndex((currentType, index) =>
             !check(currentType, value[index], genericsMap, checkerMap),
           )
         // No types given -> empty tuple

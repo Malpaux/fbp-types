@@ -33,7 +33,9 @@ const infer = (value: any): fragments.Any => {
         const firstType = types[0];
 
         // Types differ -> Tuple
-        if (~types.findIndex((type) => !match(firstType, type))) {
+        if (~types.findIndex((type) =>
+          !(type.type === 'primitive' && type.data === 'void' || match(firstType, type)),
+        )) {
           return new Fragment('tuple', types);
         }
 
@@ -42,7 +44,7 @@ const infer = (value: any): fragments.Any => {
       }
 
       const keys = Object.keys(value);
-      if (!keys.length) return new Fragment('struct', {});
+      if (!keys.length) return new Fragment('struct', null);
 
       const object: fragments.Struct['data'] = {};
       keys.forEach((key) => {

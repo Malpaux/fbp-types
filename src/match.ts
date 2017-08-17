@@ -46,7 +46,7 @@ const match = (
     case 'primitive':
       // Any type accepts any non-null type
       if (data === 'any'
-        && data2 !== null
+        && !(type2 === 'literal' && data2 === null)
         && type2 !== 'generic'
         && type2 !== 'named'
         && type2 !== 'nullable'
@@ -146,16 +146,20 @@ const match = (
         && match(data, data2, genericsMap);
 
     case 'struct':
+      // TODO: match empty data objects
+
       return type === type2
+        // No types given (matches any struct)
+        && (data === null
         // Match contained values' types
-        && !~Object.keys(data).findIndex((key) => {
+        || data2 !== null && !~Object.keys(data).findIndex((key) => {
           const pair = data[key];
           const pair2 = data2[key];
           return !(pair2 ?
             (pair.optional || !pair2.optional)
               && match(pair.type, pair2.type, genericsMap, context)
           : pair.optional);
-        });
+        }));
 
     case 'map':
       return type === type2

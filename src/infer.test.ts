@@ -4,9 +4,10 @@
  * @license Copyright (c) 2017 Malpaux IoT All Rights Reserved.
  */
 
-import infer from './infer';
 import match from './match';
 import parse from './parse';
+
+import infer from './infer';
 
 describe('type inference', () => {
   it('should infer a value\'s type', () => {
@@ -17,6 +18,7 @@ describe('type inference', () => {
     expect(match(infer([]), parse('[]'))).toBe(true);
     expect(match(infer([0, 'string']), parse('[float, string]'))).toBe(true);
     expect(match(infer([0, 1, 2, 3]), parse('float[4]'))).toBe(true);
+    expect(match(infer([0, 1, undefined, undefined]), parse('float[4]'))).toBe(true);
     expect(match(
       infer([{ key: 0, key2: null }, { key2: null, key: 12 }]),
       parse('{ key: float, key2: null }[2]'),
