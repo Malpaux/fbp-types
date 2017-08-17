@@ -7,6 +7,7 @@
 
 import { fragments } from './types';
 
+// tslint:disable no-use-before-declare
 /** Stringify a type AST and wrap it in parentheses (if necessary)  */
 export const ensureParentheses = (typeAST: fragments.Any) => {
   const { type } = typeAST;
@@ -15,6 +16,7 @@ export const ensureParentheses = (typeAST: fragments.Any) => {
     `(${print(typeAST)})`
   : print(typeAST);
 };
+// tslint:enable
 
 /** Stringify a type AST */
 const print = ({ type, data }: fragments.Any): string => {
