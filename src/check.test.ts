@@ -60,7 +60,7 @@ describe('type checker', () => {
 
   it('should check arrays', () => {
     expect(check(parse('string[4]'), ['str', 'str2', 'str3', 'str4'])).toBe(true);
-    expect(check(parse('string[4]'), ['str', 'str2', undefined, undefined])).toBe(true);
+    expect(check(parse('(?string)[4]'), ['str', 'str2', null, null])).toBe(true);
 
     expect(check(parse('string[1]'), ['str', 'str2'])).toBe(false);
     expect(check(parse('string[3]'), ['str', 'str2', 'str3', 'str4'])).toBe(false);
@@ -74,6 +74,7 @@ describe('type checker', () => {
     expect(check(parse('string[]'), ['str', 'str2', 'str3', 'str4'])).toBe(true);
 
     expect(check(parse('string[]'), ['str', 0, 'str3'])).toBe(false);
+    expect(check(parse('string[]'), ['str', 'str2', undefined])).toBe(false);
     expect(check(parse('string[]'), 'str')).toBe(false);
   });
 

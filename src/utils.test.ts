@@ -14,6 +14,11 @@ describe('utilities', () => {
     expect(convertNull(null)).toBe(null);
     expect(convertNull(1)).toBe(1);
     expect(convertNull('str')).toBe('str');
+    expect(convertNull([])).toEqual([]);
+    expect(convertNull([1, 2, null, undefined])).toEqual([1, 2, null, null]);
+    expect(convertNull({})).toEqual({});
+    expect(convertNull({ key: 'value', key2: undefined, key3: null, key4: [undefined] }))
+      .toEqual({ key: 'value', key2: null, key3: null, key4: [null] });
   });
 
   it('should check if the given type is nullable', () => {

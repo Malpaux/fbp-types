@@ -147,13 +147,13 @@ Tuples are sequences of typed values. In JavaScript they are implemented as fixe
 Example: ```[string, int]``` (double (2-tuple) with first value of type ```string``` & second of type ```int```)
 
 ### Arrays (```T[]```, ```T[n]```)
-Arrays are lists containing (up to) multiple values of the same time. They are defined by appending square brackets (```[]```) to a type.
+Arrays are lists containing (up to) multiple values of the same type. They are defined by appending square brackets (```[]```) to a type.
 
 You can defined both dynamically- & statically-sized arrays:
 - Dynamically-sized (variable size, "list"): ```T[]```
 - Statically-sized (fixed size): ```T[n]```
 
-Example: ```string[]``` (array of any number of strings), ```string[5]``` (array of up to 5 strings)
+Example: ```string[]``` (array of any number of strings), ```string[5]``` (array of 5 strings)
 
 ### Structs (```{ key: T, key2: T2, ... }```)
 Structs are associative composed data types. (In JavaScript, think objects with a predefined structure.)

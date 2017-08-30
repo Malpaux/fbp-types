@@ -74,7 +74,7 @@ const check = (
       return value.length === size
         // Check contained values' types
         && !~value.findIndex((currentValue) =>
-          !(currentValue === undefined || check(valueType, currentValue, genericsMap, checkerMap)),
+          !check(valueType, currentValue, genericsMap, checkerMap),
         );
     }
 

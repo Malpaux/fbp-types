@@ -8,8 +8,24 @@
 import { fragments } from './types';
 
 /** Covert undefined values to null */
-export const convertNull = (value?: any) =>
-  value === undefined ? null : value;
+export const convertNull = <T>(value?: T): T | null => {
+  // If value is undefined or null, return null
+  if (value === undefined || value === null) return null;
+
+  // Recursively convert arrays
+  if (Array.isArray(value)) return value.map(convertNull) as any as T;
+
+  // Recursively convert objects
+  if (typeof value === 'object') {
+    const res: { [key: string]: any } = {};
+    Object.keys(value).forEach((key) => {
+      res[key] = convertNull((value as { [key: string]: any })[key]);
+    });
+    return res as any as T;
+  }
+
+  return value;
+};
 
 /** Check if the given type is nullable */
 export const isNullable = ({ type, data }: fragments.Any): boolean => {
