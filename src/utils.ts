@@ -8,18 +8,25 @@
 import { fragments } from './types';
 
 /** Covert undefined values to null */
-export const convertNull = <T>(value?: T): T | null => {
+export const convertNull = <T>(value?: T, removeUndefinedFields?: boolean): T | null => {
   // If value is undefined or null, return null
   if (value === undefined || value === null) return null;
 
   // Recursively convert arrays
-  if (Array.isArray(value)) return value.map(convertNull) as any as T;
+  if (Array.isArray(value)) {
+    return value.map((currentValue) =>
+      convertNull(currentValue, removeUndefinedFields),
+    ) as any as T;
+  }
 
   // Recursively convert objects
   if (typeof value === 'object') {
     const res: { [key: string]: any } = {};
     Object.keys(value).forEach((key) => {
-      res[key] = convertNull((value as { [key: string]: any })[key]);
+      const currentValue = (value as { [key: string]: any })[key];
+      if (!removeUndefinedFields || currentValue !== undefined) {
+        res[key] = convertNull(currentValue, removeUndefinedFields);
+      }
     });
     return res as any as T;
   }

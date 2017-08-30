@@ -19,6 +19,8 @@ describe('utilities', () => {
     expect(convertNull({})).toEqual({});
     expect(convertNull({ key: 'value', key2: undefined, key3: null, key4: [undefined] }))
       .toEqual({ key: 'value', key2: null, key3: null, key4: [null] });
+    expect(convertNull({ key: 'value', key2: undefined, key3: null, key4: [undefined] }, true))
+      .toEqual({ key: 'value', key3: null, key4: [null] });
   });
 
   it('should check if the given type is nullable', () => {
