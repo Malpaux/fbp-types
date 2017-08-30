@@ -1,6 +1,6 @@
 {
   "name": "fbp-types",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A universal static type checking solution for use in flow-based-programming systems",
   "keywords": [],
   "homepage": "https://github.com/Malpaux/fbp-types#readme",
